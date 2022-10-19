@@ -8,9 +8,40 @@ using CustomerOrderService;
 
 namespace CustomerOrderService.Tests
 {
-    [TestFixture]
+    [TestFixture(CustomerType.Basic)]
+    [TestFixture(CustomerType.Premium, 100)]
     public class CustomerOrdersTests
     {
+        CustomerType ctype;
+        CustomerType ctype1;
+        Order order = new Order();
+      
+
+        public CustomerOrdersTests(CustomerType ctype)
+        {
+            this.ctype = ctype;
+        }
+        public CustomerOrdersTests(CustomerType ctype1 , int amount)
+        {
+          this.ctype1 = ctype1;
+            order.Amount = amount;
+        }
+      
+        [TestCase]
+        public void TestMethod()
+        {
+           
+            Assert.IsTrue((ctype == CustomerType.Premium && order.Amount > 0));
+          //  Assert.IsTrue(ctype == CustomerType.Basic);
+        }
+
+        [TestCase]
+        public void TestMethod1()
+        {
+
+            Assert.IsTrue(ctype == CustomerType.Basic);
+          
+        }
         [TestCase]
         public void WhenPremium10Percent()
         {
@@ -52,9 +83,10 @@ namespace CustomerOrderService.Tests
             
             customerOrder.GetCustomers(c1);
             List<Customer> custList1 = new List<Customer>();
+            
             custList1.Add(new Customer() { CustID = "sk", CustName = "sk" });
             custList1.Add(new Customer() { CustID = "ab", CustName = "ab" });
-            Assert.AreEqual(custList1, c1.Customers);
+            Assert.AreEqual(custList1,c1.Customers);
         }
     }
 }
